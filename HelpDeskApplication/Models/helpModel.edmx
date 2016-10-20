@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="HelpdeskModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketResponses">
+          <Key>
+            <PropertyRef Name="TicketResponseId" />
+          </Key>
+          <Property Name="TicketResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionText" Type="nvarchar(max)" />
+          <Property Name="Response" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Client_ClientId" Type="int" />
+        </EntityType>
+        <Association Name="FK_TicketResponses_TicketResponses">
+          <End Role="TicketResponses" Type="Self.TicketResponses" Multiplicity="1" />
+          <End Role="TicketResponses1" Type="Self.TicketResponses" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TicketResponses">
+              <PropertyRef Name="TicketResponseId" />
+            </Principal>
+            <Dependent Role="TicketResponses1">
+              <PropertyRef Name="TicketResponseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HelpdeskModelStoreContainer">
+          <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TicketResponses" EntityType="Self.TicketResponses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_TicketResponses_TicketResponses" Association="Self.FK_TicketResponses_TicketResponses">
+            <End Role="TicketResponses" EntitySet="TicketResponses" />
+            <End Role="TicketResponses1" EntitySet="TicketResponses" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HelpdeskModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="HelpdeskEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Tickets" EntityType="HelpdeskModel.Ticket" />
+          <EntitySet Name="TicketResponses" EntityType="HelpdeskModel.TicketRespons" />
+          <EntitySet Name="Users" EntityType="HelpdeskModel.User" />
+          <AssociationSet Name="FK_TicketResponses_TicketResponses" Association="HelpdeskModel.FK_TicketResponses_TicketResponses">
+            <End Role="TicketRespons" EntitySet="TicketResponses" />
+            <End Role="TicketRespons1" EntitySet="TicketResponses" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Ticket">
+          <Key>
+            <PropertyRef Name="TicketId" />
+          </Key>
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TicketRespons">
+          <Key>
+            <PropertyRef Name="TicketResponseId" />
+          </Key>
+          <Property Name="TicketResponseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TicketResponses1" Relationship="HelpdeskModel.FK_TicketResponses_TicketResponses" FromRole="TicketRespons" ToRole="TicketRespons1" />
+          <NavigationProperty Name="TicketRespons1" Relationship="HelpdeskModel.FK_TicketResponses_TicketResponses" FromRole="TicketRespons1" ToRole="TicketRespons" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Client_ClientId" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_TicketResponses_TicketResponses">
+          <End Type="HelpdeskModel.TicketRespons" Role="TicketRespons" Multiplicity="1" />
+          <End Type="HelpdeskModel.TicketRespons" Role="TicketRespons1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="TicketRespons">
+              <PropertyRef Name="TicketResponseId" />
+            </Principal>
+            <Dependent Role="TicketRespons1">
+              <PropertyRef Name="TicketResponseId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HelpdeskModelStoreContainer" CdmEntityContainer="HelpdeskEntities">
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="HelpdeskModel.Ticket">
+              <MappingFragment StoreEntitySet="Ticket">
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TicketResponses">
+            <EntityTypeMapping TypeName="HelpdeskModel.TicketRespons">
+              <MappingFragment StoreEntitySet="TicketResponses">
+                <ScalarProperty Name="Response" ColumnName="Response" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="TicketResponseId" ColumnName="TicketResponseId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="HelpdeskModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Client_ClientId" ColumnName="Client_ClientId" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
