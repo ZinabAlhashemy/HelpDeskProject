@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HelpdeskModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Ticket">
+    <Key>
+      <PropertyRef Name="TicketId" />
+    </Key>
+    <Property Name="TicketId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TicketResponses">
+    <Key>
+      <PropertyRef Name="TicketResponseId" />
+    </Key>
+    <Property Name="TicketResponseId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="QuestionText" Type="nvarchar(max)" />
+    <Property Name="Response" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="40" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Client_ClientId" Type="int" />
+  </EntityType>
+  <Association Name="FK_TicketResponses_TicketResponses">
+    <End Role="TicketResponses" Type="Self.TicketResponses" Multiplicity="1" />
+    <End Role="TicketResponses1" Type="Self.TicketResponses" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="TicketResponses">
+        <PropertyRef Name="TicketResponseId" />
+      </Principal>
+      <Dependent Role="TicketResponses1">
+        <PropertyRef Name="TicketResponseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HelpdeskModelStoreContainer">
+    <EntitySet Name="Ticket" EntityType="Self.Ticket" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TicketResponses" EntityType="Self.TicketResponses" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TicketResponses_TicketResponses" Association="Self.FK_TicketResponses_TicketResponses">
+      <End Role="TicketResponses" EntitySet="TicketResponses" />
+      <End Role="TicketResponses1" EntitySet="TicketResponses" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HelpdeskModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="HelpdeskEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tickets" EntityType="HelpdeskModel.Ticket" />
+    <EntitySet Name="TicketResponses" EntityType="HelpdeskModel.TicketRespons" />
+    <EntitySet Name="Users" EntityType="HelpdeskModel.User" />
+    <AssociationSet Name="FK_TicketResponses_TicketResponses" Association="HelpdeskModel.FK_TicketResponses_TicketResponses">
+      <End Role="TicketRespons" EntitySet="TicketResponses" />
+      <End Role="TicketRespons1" EntitySet="TicketResponses" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Ticket">
+    <Key>
+      <PropertyRef Name="TicketId" />
+    </Key>
+    <Property Name="TicketId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TicketRespons">
+    <Key>
+      <PropertyRef Name="TicketResponseId" />
+    </Key>
+    <Property Name="TicketResponseId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="QuestionText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Response" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="TicketResponses1" Relationship="HelpdeskModel.FK_TicketResponses_TicketResponses" FromRole="TicketRespons" ToRole="TicketRespons1" />
+    <NavigationProperty Name="TicketRespons1" Relationship="HelpdeskModel.FK_TicketResponses_TicketResponses" FromRole="TicketRespons1" ToRole="TicketRespons" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="40" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Client_ClientId" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_TicketResponses_TicketResponses">
+    <End Type="HelpdeskModel.TicketRespons" Role="TicketRespons" Multiplicity="1" />
+    <End Type="HelpdeskModel.TicketRespons" Role="TicketRespons1" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="TicketRespons">
+        <PropertyRef Name="TicketResponseId" />
+      </Principal>
+      <Dependent Role="TicketRespons1">
+        <PropertyRef Name="TicketResponseId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
